@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}Estoque+ | Painel{% endblock %}
+{% block content %}
+<section class="cabecalho-pagina">
+  <div><p class="sobretitulo">PAINEL DE CONTROLE</p><h1>Visão geral do estoque</h1><p class="subtitulo">Acompanhe seus produtos e operações.</p></div>
+  <a class="botao" href="{{ url_for('novo_pedido') }}">+ Novo pedido</a>
+</section>
+
+<section class="indicadores">
+  <div class="indicador"><span>Produtos ativos</span><strong>{{ total_produtos }}</strong></div>
+  <div class="indicador"><span>Unidades em estoque</span><strong>{{ total_unidades }}</strong></div>
+  <div class="indicador alerta"><span>Estoque baixo (até 5)</span><strong>{{ estoque_baixo|length }}</strong></div>
+</section>
+
+<div class="grade-principal">
+  <section class="painel">
+    <div class="painel-titulo"><h2>Cadastrar produto</h2></div>
+    <form action="{{ url_for('cadastrar') }}" method="POST" class="formulario">
+      <label>Nome do produto</label>
+      <input type="text" name="nome" maxlength="100" placeholder="Ex.: Suporte de Controle" required>
+      <label>Preço (R$)</label>
+      <input type="number" name="preco" min="0" step="0.01" placeholder="39.90" required>
+      <label>Quantidade inicial</label>
+      <input type="number" name="quantidade" min="0" step="1" placeholder="20" required>
+      <button class="botao" type="submit">Cadastrar produto</button>
+    </form>
+  </section>
+
+  <section class="painel">
+    <div class="painel-titulo"><h2>Alertas de estoque</h2></div>
+    {% if estoque_baixo %}
+      <ul class="alertas">
+      {% for produto in estoque_baixo %}
+        <li><span>{{ produto.nome }}</span><strong>{{ produto.quantidade }} un.</strong></li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p class="vazio">Nenhum produto com estoque baixo.</p>
+    {% endif %}
+    <a class="link" href="{{ url_for('movimentacoes') }}">Ver histórico de movimentações →</a>
+  </section>
+</div>
+
+<section class="painel tabela-painel">
+  <div class="painel-titulo"><h2>Produtos cadastrados</h2><span class="contador">{{ total_produtos }} ativos</span></div>
+  <div class="tabela-responsiva">
+    <table>
+      <thead><tr><th>Produto</th><th>Preço</th><th>Quantidade</th><th>Ações</th></tr></thead>
+      <tbody>
+      {% for produto in produtos %}
+        <tr>
+          <td><strong>{{ produto.nome }}</strong></td>
+          <td>R$ {{ "%.2f"|format(produto.preco) }}</td>
+          <td><span class="quantidade {% if produto.quantidade <= 5 %}quantidade-baixa{% endif %}">{{ produto.quantidade }}</span></td>
+          <td class="acoes">
+            <a class="link" href="{{ url_for('editar', id=produto.id) }}">Editar</a>
+            <a class="link" href="{{ url_for('movimentar_estoque', produto_id=produto.id) }}">Estoque</a>
+            <form action="{{ url_for('desativar', id=produto.id) }}" method="POST" onsubmit="return confirm('Desativar este produto?');">
+              <button class="link link-perigo" type="submit">Desativar</button>
+            </form>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="4" class="vazio">Nenhum produto cadastrado.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="painel tabela-painel">
+  <div class="painel-titulo"><h2>Pedidos recentes</h2><a class="link" href="{{ url_for('pedidos') }}">Ver todos →</a></div>
+  {% if pedidos_recentes %}
+  <div class="tabela-responsiva"><table>
+    <thead><tr><th>Pedido</th><th>Cliente</th><th>Data</th><th>Status</th></tr></thead>
+    <tbody>{% for pedido in pedidos_recentes %}
+      <tr><td>#{{ pedido.id }}</td><td>{{ pedido.cliente }}</td><td>{{ pedido.data_criacao.strftime("%d/%m/%Y %H:%M") }}</td><td>{{ pedido.status }}</td></tr>
+    {% endfor %}</tbody>
+  </table></div>
+  {% else %}<p class="vazio">Ainda não há pedidos registrados.</p>{% endif %}
+</section>
+{% endblock %}

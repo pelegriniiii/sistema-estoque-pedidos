@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Pedidos | Estoque+{% endblock %}
+{% block content %}
+<section class="cabecalho-pagina"><div><p class="sobretitulo">VENDAS</p><h1>Pedidos</h1><p class="subtitulo">Consulte e gerencie os pedidos registrados.</p></div><a class="botao" href="{{ url_for('novo_pedido') }}">+ Novo pedido</a></section>
+<section class="painel tabela-painel"><div class="tabela-responsiva"><table>
+<thead><tr><th>Número</th><th>Cliente</th><th>Data</th><th>Itens</th><th>Status</th><th>Ação</th></tr></thead>
+<tbody>
+{% for pedido in pedidos %}
+<tr>
+  <td>#{{ pedido.id }}</td><td>{{ pedido.cliente }}</td><td>{{ pedido.data_criacao.strftime("%d/%m/%Y %H:%M") }}</td>
+  <td>{% for item in pedido.itens %}{{ item.quantidade }} × {{ item.produto.nome }}{% if not loop.last %}, {% endif %}{% endfor %}</td>
+  <td><span class="status {% if pedido.status == 'Cancelado' %}status-cancelado{% endif %}">{{ pedido.status }}</span></td>
+  <td>{% if pedido.status != "Cancelado" %}<form method="POST" action="{{ url_for('cancelar_pedido', id=pedido.id) }}" onsubmit="return confirm('Cancelar o pedido e devolver os itens ao estoque?');"><button class="link link-perigo" type="submit">Cancelar</button></form>{% else %}—{% endif %}</td>
+</tr>
+{% else %}<tr><td colspan="6" class="vazio">Nenhum pedido registrado.</td></tr>{% endfor %}
+</tbody></table></div></section>
+{% endblock %}

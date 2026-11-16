@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Movimentações | Estoque+{% endblock %}
+{% block content %}
+<section class="cabecalho-pagina"><div><p class="sobretitulo">AUDITORIA</p><h1>Histórico de estoque</h1><p class="subtitulo">Últimas 200 movimentações registradas.</p></div><a class="botao botao-secundario" href="{{ url_for('inicio') }}">Voltar ao painel</a></section>
+<section class="painel tabela-painel"><div class="tabela-responsiva"><table>
+<thead><tr><th>Data</th><th>Produto</th><th>Tipo</th><th>Quantidade</th><th>Descrição</th></tr></thead>
+<tbody>{% for mov in movimentacoes %}
+<tr><td>{{ mov.data.strftime("%d/%m/%Y %H:%M") }}</td><td>{{ mov.produto.nome }}</td><td>{{ mov.tipo }}</td><td>{{ mov.quantidade }}</td><td>{{ mov.descricao }}</td></tr>
+{% else %}<tr><td colspan="5" class="vazio">Nenhuma movimentação registrada.</td></tr>{% endfor %}</tbody>
+</table></div></section>
+{% endblock %}

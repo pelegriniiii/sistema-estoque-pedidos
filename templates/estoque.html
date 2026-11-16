@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Movimentar estoque | Estoque+{% endblock %}
+{% block content %}
+<section class="cabecalho-pagina"><div><p class="sobretitulo">CONTROLE DE ESTOQUE</p><h1>{{ produto.nome }}</h1><p class="subtitulo">Saldo atual: <strong>{{ produto.quantidade }} unidades</strong></p></div></section>
+<section class="painel formulario-painel">
+  <form method="POST" class="formulario">
+    <label>Tipo de movimentação</label>
+    <select name="tipo" required><option value="">Selecione</option><option value="Entrada">Entrada</option><option value="Saída">Saída</option></select>
+    <label>Quantidade</label><input type="number" name="quantidade" min="1" step="1" required>
+    <label>Descrição (opcional)</label><input type="text" name="descricao" maxlength="200" placeholder="Ex.: Reposição do fornecedor">
+    <div class="linha-botoes"><button class="botao" type="submit">Registrar movimentação</button><a class="botao botao-secundario" href="{{ url_for('inicio') }}">Voltar</a></div>
+  </form>
+</section>
+{% endblock %}

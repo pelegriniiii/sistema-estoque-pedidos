@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Novo pedido | Estoque+{% endblock %}
+{% block content %}
+<section class="cabecalho-pagina"><div><p class="sobretitulo">VENDAS</p><h1>Registrar pedido</h1><p class="subtitulo">O estoque será atualizado ao salvar o pedido.</p></div></section>
+<section class="painel formulario-painel">
+{% if produtos %}
+<form method="POST" class="formulario">
+  <label>Nome do cliente</label><input type="text" name="cliente" maxlength="120" required placeholder="Nome do cliente">
+  <h2 class="subtitulo-form">Produtos do pedido</h2>
+  {% for i in range(5) %}
+  <div class="linha-produto">
+    <div><label>Produto {{ i + 1 }}</label>
+      <select name="produto_id"><option value="">Selecione um produto</option>
+        {% for produto in produtos %}<option value="{{ produto.id }}">{{ produto.nome }} — {{ produto.quantidade }} disponíveis</option>{% endfor %}
+      </select>
+    </div>
+    <div><label>Quantidade</label><input type="number" name="quantidade" min="1" step="1" placeholder="0"></div>
+  </div>
+  {% endfor %}
+  <div class="linha-botoes"><button class="botao" type="submit">Salvar pedido e baixar estoque</button><a class="botao botao-secundario" href="{{ url_for('pedidos') }}">Cancelar</a></div>
+</form>
+{% else %}
+<p class="vazio">Cadastre e ative pelo menos um produto antes de registrar pedidos.</p>
+<a class="botao" href="{{ url_for('inicio') }}">Voltar ao painel</a>
+{% endif %}
+</section>
+{% endblock %}
