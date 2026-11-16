@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 
 from flask import Flask, render_template, request, redirect, url_for, flash
@@ -24,7 +24,7 @@ class Produto(db.Model):
 class Pedido(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     cliente = db.Column(db.String(120), nullable=False)
-    data_criacao = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    data_criacao = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
     status = db.Column(db.String(20), default="Concluído", nullable=False)
     itens = db.relationship("ItemPedido", backref="pedido", cascade="all, delete-orphan")
 
@@ -44,7 +44,7 @@ class MovimentacaoEstoque(db.Model):
     tipo = db.Column(db.String(20), nullable=False)
     quantidade = db.Column(db.Integer, nullable=False)
     descricao = db.Column(db.String(200), nullable=False, default="")
-    data = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    data = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
     produto = db.relationship("Produto")
 
 
@@ -260,7 +260,7 @@ def cancelar_pedido(id):
         return redirect(url_for("pedidos"))
 
     for item in pedido.itens:
-        produto = Produto.query.get(item.produto_id)
+        produto = db.session.get(Produto, item.produto_id)
         if produto:
             produto.quantidade += item.quantidade
             registrar_movimentacao(
