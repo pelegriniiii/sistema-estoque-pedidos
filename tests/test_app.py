@@ -117,3 +117,45 @@ def test_impedir_saida_maior_que_estoque(cliente):
 	with app.app_context():
 		produto = db.session.get(Produto, produto_id)
 		assert produto.quantidade == 10
+		
+def test_cadastrar_produto(cliente):
+    cliente.post(
+        "/cadastrar",
+        data={
+            "nome": "Produto Novo",
+            "preco": "25.50",
+            "quantidade": "7"
+        },
+        follow_redirects=True
+    )
+
+    with app.app_context():
+        produto = Produto.query.filter_by(nome="Produto Novo").first()
+
+        assert produto is not None
+        assert float(produto.preco) == 25.50
+        assert produto.quantidade == 7
+
+
+def test_editar_produto(cliente):
+    with app.app_context():
+        produto = Produto.query.first()
+        produto_id = produto.id
+
+    cliente.post(
+        f"/editar/{produto_id}",
+        data={
+            "nome": "Produto Editado",
+            "preco": "35.90",
+            "quantidade": "15"
+        },
+        follow_redirects=True
+    )
+
+    with app.app_context():
+        produto = db.session.get(Produto, produto_id)
+
+        assert produto.nome == "Produto Editado"
+        assert float(produto.preco) == 35.90
+        assert produto.quantidade == 15
+		
