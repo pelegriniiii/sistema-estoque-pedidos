@@ -1,3 +1,96 @@
 :root{font-family:Arial,Helvetica,sans-serif;color:#202938;background:#f4f6fa;font-synthesis:none}
 *{box-sizing:border-box}body{margin:0}.topo{background:#111827;color:white}.topo-interno{max-width:1120px;margin:auto;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:20px}.marca{font-size:25px;font-weight:800;color:white;text-decoration:none}.marca span{color:#60a5fa}.topo nav{display:flex;gap:22px;flex-wrap:wrap}.topo nav a{color:#dbeafe;text-decoration:none;font-size:14px}.topo nav a:hover{color:white}.container{max-width:1120px;margin:32px auto;padding:0 22px}.cabecalho-pagina{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:24px}.sobretitulo{font-size:11px;font-weight:700;letter-spacing:1.5px;color:#64748b;margin:0 0 8px}.cabecalho-pagina h1{font-size:29px;margin:0 0 7px}.subtitulo{color:#64748b;margin:0}.indicadores{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}.indicador,.painel{background:white;border:1px solid #e5eaf1;border-radius:12px;box-shadow:0 3px 12px #15223808}.indicador{padding:20px}.indicador span{display:block;color:#64748b;font-size:13px;margin-bottom:10px}.indicador strong{font-size:28px}.indicador.alerta strong{color:#b45309}.grade-principal{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px}.painel{padding:22px;margin-bottom:20px}.painel-titulo{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}.painel h2{font-size:18px;margin:0}.formulario{display:flex;flex-direction:column;gap:9px}.formulario label{font-size:13px;font-weight:700;color:#374151;margin-top:5px}.formulario input,.formulario select{width:100%;padding:11px 12px;border:1px solid #cbd5e1;border-radius:7px;background:white;font-size:14px}.formulario input:focus,.formulario select:focus{outline:2px solid #bfdbfe;border-color:#3b82f6}.botao{display:inline-flex;align-items:center;justify-content:center;background:#2563eb;color:white;border:0;border-radius:7px;padding:11px 16px;text-decoration:none;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px}.botao:hover{background:#1d4ed8}.botao-secundario{background:#e8edf5;color:#334155}.botao-secundario:hover{background:#dbe3ef}.tabela-painel{padding-bottom:8px}.tabela-responsiva{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}th{text-align:left;color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:.4px;background:#f8fafc}th,td{padding:13px 12px;border-bottom:1px solid #edf0f4;vertical-align:middle}td strong{color:#1f2937}.acoes{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.acoes form{display:inline}.link{color:#2563eb;text-decoration:none;font-size:13px;font-weight:700;background:none;border:0;padding:0;cursor:pointer}.link-perigo{color:#dc2626}.contador{font-size:12px;color:#64748b}.quantidade{display:inline-block;background:#dcfce7;color:#166534;padding:4px 9px;border-radius:20px;font-weight:700}.quantidade-baixa{background:#fef3c7;color:#92400e}.alertas{list-style:none;padding:0;margin:0 0 18px}.alertas li{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid #edf0f4}.alertas strong{color:#b45309}.vazio{color:#64748b;padding:16px 0}.mensagem{padding:12px 15px;border-radius:8px;margin-bottom:16px;font-size:14px}.mensagem.sucesso{background:#dcfce7;color:#166534}.mensagem.erro{background:#fee2e2;color:#991b1b}.formulario-painel{max-width:680px}.linha-botoes{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}.subtitulo-form{margin:16px 0 4px!important}.linha-produto{display:grid;grid-template-columns:2fr 1fr;gap:12px;padding:12px 0;border-bottom:1px solid #edf0f4}.status{display:inline-block;background:#dcfce7;color:#166534;padding:5px 9px;border-radius:20px;font-size:12px}.status-cancelado{background:#fee2e2;color:#991b1b}footer{text-align:center;color:#94a3b8;font-size:12px;padding:24px}
 @media(max-width:720px){.topo-interno{align-items:flex-start;flex-direction:column}.indicadores{grid-template-columns:1fr}.grade-principal{grid-template-columns:1fr}.cabecalho-pagina{align-items:flex-start;flex-direction:column}.linha-produto{grid-template-columns:1fr}.container{margin-top:22px;padding:0 14px}.painel{padding:17px}.cabecalho-pagina h1{font-size:25px}}
+
+/* Botão de acessibilidade */
+.botao-acessibilidade {
+  background: #ffffff;
+  color: #111827;
+  border: 2px solid #60a5fa;
+  border-radius: 7px;
+  padding: 9px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.botao-acessibilidade:focus-visible {
+  outline: 3px solid #facc15;
+  outline-offset: 3px;
+}
+
+/* Modo de alto contraste */
+body.alto-contraste {
+  background: #000000;
+  color: #ffffff;
+}
+
+.alto-contraste .topo {
+  background: #000000;
+  border-bottom: 2px solid #ffffff;
+}
+
+.alto-contraste .topo nav a,
+.alto-contraste .marca,
+.alto-contraste .subtitulo,
+.alto-contraste .sobretitulo,
+.alto-contraste footer {
+  color: #ffffff;
+}
+
+.alto-contraste .indicador,
+.alto-contraste .painel {
+  background: #000000;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}
+
+.alto-contraste .indicador span,
+.alto-contraste th,
+.alto-contraste td,
+.alto-contraste td strong,
+.alto-contraste .formulario label,
+.alto-contraste .vazio {
+  color: #ffffff;
+}
+
+.alto-contraste th {
+  background: #222222;
+}
+
+.alto-contraste input,
+.alto-contraste select {
+  background: #000000;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}
+
+.alto-contraste a,
+.alto-contraste .link {
+  color: #ffff00;
+}
+
+.alto-contraste .botao {
+  background: #ffff00;
+  color: #000000;
+  border: 2px solid #ffffff;
+}
+
+.alto-contraste .quantidade,
+.alto-contraste .status,
+.alto-contraste .mensagem {
+  background: #000000;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}
+
+.alto-contraste .botao-acessibilidade {
+  background: #ffff00;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+@media (max-width: 720px) {
+  .botao-acessibilidade {
+    margin-top: 5px;
+  }
+}

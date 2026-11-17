@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -10,21 +11,53 @@
 <header class="topo">
   <div class="topo-interno">
     <a class="marca" href="{{ url_for('inicio') }}">Estoque<span>+</span></a>
-    <nav>
+    <h2 style="color: yellow; background: red;">TESTE DE ATUALIZAÇÃO</h2>
+    <nav aria-label="Navegação principal">
       <a href="{{ url_for('inicio') }}">Início</a>
       <a href="{{ url_for('pedidos') }}">Pedidos</a>
       <a href="{{ url_for('movimentacoes') }}">Movimentações</a>
     </nav>
+
+    <button
+      type="button"
+      class="botao-acessibilidade"
+      id="alternar-contraste"
+      aria-pressed="false">
+      <button
+  type="button"
+  style="background: yellow; color: black; padding: 15px; border: 3px solid red; font-size: 18px;"
+  id="alternar-contraste">
+  ALTO CONTRASTE - TESTE
+</button>
+    </button>
   </div>
 </header>
-<main class="container">
+
+<main class="container" id="conteudo-principal" tabindex="-1">
   {% with mensagens = get_flashed_messages(with_categories=true) %}
     {% for categoria, mensagem in mensagens %}
-      <div class="mensagem {{ categoria }}">{{ mensagem }}</div>
+      <div class="mensagem {{ categoria }}" role="status">{{ mensagem }}</div>
     {% endfor %}
   {% endwith %}
   {% block content %}{% endblock %}
 </main>
+
 <footer>Estoque+ · Sistema de Gestão de Estoque e Pedidos</footer>
+
+<script>
+  const botaoContraste = document.getElementById("alternar-contraste");
+
+  if (localStorage.getItem("altoContraste") === "ativado") {
+    document.body.classList.add("alto-contraste");
+    botaoContraste.setAttribute("aria-pressed", "true");
+  }
+
+  botaoContraste.addEventListener("click", function () {
+    const ativo = document.body.classList.toggle("alto-contraste");
+
+    botaoContraste.setAttribute("aria-pressed", ativo);
+    localStorage.setItem("altoContraste", ativo ? "ativado" : "desativado");
+  });
+</script>
 </body>
 </html>
